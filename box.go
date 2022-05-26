@@ -3,6 +3,7 @@ package golang_united_school_homework
 import (
 	"errors"
 	"fmt"
+	"reflect"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -111,11 +112,9 @@ func (b *box) SumArea() (result float64) {
 func (b *box) RemoveAllCircles() error {
 	shapes := make([]Shape, 0)
 	for i := range b.shapes {
-		if _, ok := b.shapes[i].(Circle); ok {
-			continue
+		if reflect.TypeOf(b.shapes[i]) != reflect.TypeOf((*Circle)(nil)) {
+			shapes = append(shapes, b.shapes[i])
 		}
-
-		shapes = append(shapes, b.shapes[i])
 	}
 
 	if len(b.shapes) == len(shapes) {
